@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 export const CommentSchema = new Schema(
   {
     body: {type: String, required: true},
-    towerId: {type: Schema.Types.ObjectId, ref: 'Tower', required: true},
+    eventId: {type: Schema.Types.ObjectId, ref: 'Tower', required: true},
     creatorId: { type: Schema.Types.ObjectId, ref: 'Account', required: true }
   },
   { timestamps: true, toJSON: { virtuals: true } }

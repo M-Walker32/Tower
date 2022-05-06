@@ -9,6 +9,7 @@ export class TowersController extends BaseController {
     this.router
       .get('', this.getAll)
       .get('/:id', this.getById)
+      .get('/:id/comments/:id', this.getCommentsByEvent)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
       .put('/:id', this.edit)
@@ -30,6 +31,15 @@ export class TowersController extends BaseController {
       return res.send(tower)
     } catch (error) {
       next (error)
+    }
+  }
+
+  // TODO get comments by event, get tickets by event
+  getCommentsByEvent(req, res,next) {
+    try {
+      throw new Error("Method not implemented.")
+    } catch (error) {
+      next(error)
     }
   }
 
