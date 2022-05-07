@@ -3,8 +3,9 @@ const Schema = mongoose.Schema
 
 export const TicketSchema = new Schema(
   {
-    towerId: {type: Schema.Types.ObjectId, ref: 'Tower', required: true},
-    creatorId: { type: Schema.Types.ObjectId, ref: 'Account', required: true }
+    eventId: {type: Schema.Types.ObjectId, ref: 'Event', required: true},
+    accountId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
+    creatorId: { type: Schema.Types.ObjectId, ref: 'Creator', required: true },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
@@ -13,11 +14,20 @@ TicketSchema.virtual('creator', {
   localField: 'creatorId',
   foreignField: '_id',
   justOne: true,
+  required: true,
   ref: 'Account'
 })
-TicketSchema.virtual('tower', {
-  localField: 'towerId',
+TicketSchema.virtual('event', {
+  localField: 'eventId',
   foreignField: '_id',
   justOne: true,
-  ref: 'Tower'
+  required: true,
+  ref: 'Event'
+})
+TicketSchema.virtual('account', {
+  localField: 'accountId',
+  foreignField: '_id',
+  justOne: true,
+  required: true,
+  ref: 'Account'
 })

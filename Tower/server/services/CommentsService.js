@@ -4,11 +4,16 @@ import { BadRequest, Forbidden } from '../utils/Errors'
 class CommentsService {
 
   async getAll() {
-    return await dbContext.Comments.find({}).populate('creator').populate('tower')
+    return await dbContext.Comments.find({}).populate('creator').populate('event')
+  }
+
+  async getAllComments(eventId) {
+    const comments = await dbContext.Comments.find({eventId: eventId}).populate('creator').populate('event')
+    return comments
   }
 
   async getById(id) {
-    const comment = await dbContext.Comments.findById(id).populate('creator').populate('tower')
+    const comment = await dbContext.Comments.findById(id).populate('creator').populate('event')
     if (!comment){
       throw new BadRequest('Invalid id')
     }
@@ -18,16 +23,16 @@ class CommentsService {
   async create(body) {
     const comment = await dbContext.Comments.create(body)
     await comment.populate('creator')
-    await comment.populate('tower')
+    await comment.populate('event')
     return comment
   }
 
   async remove(id, userid){
-  
-    // if (comment.creatorId !== userid) {
-    //   throw new Forbidden('Not yours to delete')
-    // }
-    await dbContext.Comments.findByIdAndDelete(id)
+    const comment = await this.getById(id)
+    if (comment.creatorId.toString() !== userid) {
+      throw new Forbidden('Not yours to delete')
+    }
+    await comment.remove()
   }
 
 }

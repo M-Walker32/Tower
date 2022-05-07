@@ -1,23 +1,42 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest, Forbidden } from '../utils/Errors'
 
-class TowersService {
+class EventsService {
+  async modifyEventCapacity(eventId) {
+    const original = await this.getById(eventId)
+    if(original.isCanceled == true){
+      throw new BadRequest('This event has been cancelled')
+    }
+    original.capacity -= 1
+    await original.save()
+    return original
+  }
+  async modifyEventCapacity2(eventId) {
+    const original = await this.getById(eventId)
+    if(original.isCanceled == true){
+      throw new BadRequest('This event has been cancelled')
+    }
+    original.capacity += 1
+    await original.save()
+    return original
+  }
 
   async getAll() {
-    return await dbContext.Towers.find({}).populate('creator')
+    return await dbContext.TowerEvents.find({}).populate('creator')
   }
 
   async getById(id) {
-    const tower = await dbContext.Towers.findById(id).populate('creator')
-    if (!tower){
-      throw new BadRequest('Invalid Id tower is false')
+    const foundEvent = await dbContext.TowerEvents.findById(id)
+    if (!foundEvent){
+      throw new BadRequest('Invalid Id')
     }
-    return tower
+    await foundEvent.populate('creator')
+    return foundEvent
   }
   async create(body) {
-    const tower = await dbContext.Towers.create(body)
-    await tower.populate('creator')
-    return tower
+    const event = await dbContext.TowerEvents.create(body)
+    await event.populate('creator')
+    return event
   }
   async edit(edits) {
     const original = await this.getById(edits.id)
@@ -47,8 +66,11 @@ class TowersService {
     return original
   }
 
-async remove(tower) {
-  const original = await this.getById(tower.id)
+async remove(event) {
+  const original = await this.getById(event.id)
+  if (original.creatorId.toString() !== event.creatorId) {
+    throw new Forbidden('This is not yours to edit')
+  }
   if(original.isCanceled == true){
     throw new BadRequest('This event has been cancelled')
   }
@@ -59,4 +81,4 @@ async remove(tower) {
 
 }
 
-export const towersService = new TowersService()
+export const eventsService = new EventsService()
