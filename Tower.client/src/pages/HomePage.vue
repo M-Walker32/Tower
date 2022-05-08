@@ -10,40 +10,62 @@
       <div class="col-12">
         <div
           class="
+            text-success text-uppercase
             bg-primary
             w-100
             my-2
             p-1
-            text-light
             h-font
             justify-content-around
             d-flex
           "
         >
-          <h2 class="selectable" @click.prevent="" title="sort by concert">
-            concert
+          <h2 class="selectable" @click="sort = ''" title="view all events">
+            All
           </h2>
-          <h2 class="selectable" @click.prevent="" title="sort by convention">
-            convention
+          <h2
+            class="selectable"
+            @click="sort = 'concert'"
+            title="view concerts"
+          >
+            concerts
           </h2>
-          <h2 class="selectable" @click.prevent="" title="sort by sport">
-            sport
+          <h2
+            class="selectable"
+            @click="sort = 'convention'"
+            title="view conventions"
+          >
+            conventions
           </h2>
-          <h2 class="selectable" @click.prevent="" title="sort by digital">
-            digital
+          <h2
+            class="selectable"
+            @click="sort = 'sport'"
+            title="view sporting events"
+          >
+            sports
+          </h2>
+          <h2
+            class="selectable"
+            @click="sort = 'digital'"
+            title="view virtual events"
+          >
+            virtual
           </h2>
         </div>
       </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-start">
       <!-- Project here -->
-      <Tower v-for="t in towers" :key="t.id" :tower="t" />
+      <Tower v-for="t in sortedEvents" :key="t.id" :tower="t" />
+      <div class="div">
+        <Paginator />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from "@vue/runtime-core"
+import { computed, onMounted, ref, watchEffect } from "@vue/runtime-core"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { AppState } from "../AppState.js"
@@ -51,11 +73,27 @@ import { towersService } from "../services/TowersService.js"
 export default {
   name: 'Home',
   setup() {
-    onMounted(async () => {
-      await towersService.getAllTowers()
+    const sort = ref('')
+    const sortedEvents = ref([])
+
+    watchEffect(() => {
+      let list = AppState.towers
+      if (sort.value) {
+        list = list.filter(t => t.type == sort.value)
+      }
+      sortedEvents.value = list
+    })
+    watchEffect(async () => {
+      try {
+        await towersService.getAllTowers()
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
     })
     return {
-      towers: computed(() => AppState.towers)
+      sort,
+      sortedEvents
     }
   },
 }

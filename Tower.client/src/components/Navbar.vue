@@ -18,31 +18,41 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
-        <li>
+        <li class="d-flex">
           <router-link
-            :to="{ name: 'About' }"
-            class="btn text-success lighten-30 selectable text-uppercase"
+            :to="{ name: 'Home' }"
+            class="btn text-success selectable text-uppercase"
           >
-            About
+            Home
           </router-link>
           <router-link
-            :to="{ name: 'About' }"
-            class="btn text-success lighten-30 selectable text-uppercase"
+            :to="{ name: 'Account' }"
+            class="btn text-success selectable text-uppercase"
           >
-            About
+            Account
           </router-link>
-          <router-link
-            :to="{ name: 'About' }"
-            class="btn text-success lighten-30 selectable text-uppercase"
+          <h2
+            title="Create New Event"
+            class="btn text-success selectable text-uppercase"
+            data-bs-toggle="modal"
+            :data-bs-target="'#create-event-modal'"
           >
-            About
-          </router-link>
+            +
+          </h2>
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>
   </nav>
+  <Modal id="create-event-modal">
+    <template #modal-title-slot>
+      <h4>Create an Event</h4>
+    </template>
+    <template #modal-body-slot>
+      <EventForm />
+    </template>
+  </Modal>
 </template>
 
 <script>

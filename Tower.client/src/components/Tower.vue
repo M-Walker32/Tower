@@ -12,7 +12,11 @@
           <br />
           {{ tower.location }}
         </p>
-        <button class="my-button w-100 mt-4">Details</button>
+        <router-link :to="{ name: 'EventPage', params: { id: tower.id } }">
+          <button class="my-button w-100 mt-4" :title="tower.name + ' details'">
+            Details
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -20,6 +24,9 @@
 
 
 <script>
+import { computed } from "@vue/reactivity"
+import { AppState } from "../AppState.js"
+import { useRoute } from "vue-router"
 export default {
   props: {
     tower: {
@@ -27,8 +34,10 @@ export default {
       required: true
     }
   },
-  setup() {
+  setup(props) {
+    const router = useRoute()
     return {
+      account: computed(() => AppState.account),
     }
   }
 }

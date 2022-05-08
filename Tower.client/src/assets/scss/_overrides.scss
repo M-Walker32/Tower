@@ -1,6 +1,16 @@
 .form-control {
   background-color: #f7f5f5;
+
   &:focus {
     background-color: #fbf9f9;
   }
+}
+
+.modal-backdrop.show {
+  opacity: 0%;
+}
+
+.modal-backdrop {
+  width: 0%;
+  height: 0%;
 }
