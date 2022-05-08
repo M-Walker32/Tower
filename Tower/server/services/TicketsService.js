@@ -4,22 +4,21 @@ import { eventsService } from "./EventsService.js"
 
 class TicketsService {
   async getAll() {
-    return await dbContext.Tickets.find({}).populate('creator').populate('event')
+    return await dbContext.Tickets.find({}).populate('creator').populate('account').populate('event')
+  }
+  async getTicketsByAccountId(accountId) {
+    return await dbContext.Tickets.find({ accountId }).populate('creator').populate('account').populate('event')
   }
 
-  // TODO this is get tickets by account, it's not working, I don't think I wrote the controller command
-  async getTicketsByAccountId(accountId) {
-    return await dbContext.Tickets.find({ accountId }).populate('event')
-  }
   async getById(id) {
-    const ticket = await dbContext.Tickets.findById(id).populate('creator').populate('event')
+    const ticket = await dbContext.Tickets.findById(id).populate('creator').populate('account').populate('event')
     if(!ticket){
       throw new BadRequest('Invalid Id')
     }
     return ticket
   }
   async getTicketsByEvent(eventId) {
-    const tickets = await dbContext.Tickets.find({eventId: eventId}).populate('account').populate('event')
+    const tickets = await dbContext.Tickets.find({eventId: eventId}).populate('creator').populate('account').populate('event')
     if(!tickets){
       throw new BadRequest('There are no active tickets for this show')
     }
@@ -27,18 +26,32 @@ class TicketsService {
   }
 
   async create(ticket) {
-    const exists = await dbContext.Tickets.findOne({ accountId: ticket.accountId, eventId: ticket.eventId }).populate('account')
-    if (exists) {
+    const exists = await dbContext.Tickets.find({ accountId: ticket.accountId , eventId: ticket.eventId})
+    // @ts-ignore
+    if (exists.id) {
       throw new Forbidden('You can only have one ticket to an event')
     }
-    const newTicket = await dbContext.Tickets.create(ticket)
-    await newTicket.populate('creator')
-    await newTicket.populate('event')
-    await newTicket.populate('account')
-    await eventsService.modifyEventCapacity(ticket.eventId)
-    return newTicket
+    // TODO fix this atttempt to find the event capacity
+    // @ts-ignore
+    if(!exists.id){
+      // find the event by it's Id
+    const event = await eventsService.getById(ticket.eventId)
+    // check if there's capacity
+    if (event.capacity <= 0){
+      throw new Forbidden('This event is sold out')
+    }
+    // If there is capacity create a ticket
+    if (event.capacity > 0){
+      const newTicket = await dbContext.Tickets.create(ticket)
+      await newTicket.populate('creator')
+      await newTicket.populate('event')
+      await newTicket.populate('account')
+      await eventsService.modifyEventCapacity(ticket.eventId)
+      return newTicket
+    }
+    }
   }
-
+// TODO this is not working, might be the id
   async remove(id, userid) {
     const ticket = await this.getById(id)
     if(ticket.creatorId.toString() !== userid){

@@ -35,7 +35,7 @@ export class TicketsController extends BaseController {
       req.body.creatorId = req.userInfo.id
       req.body.accountId = req.userInfo.id
       const ticket = await ticketsService.create(req.body)
-      return res.send(ticket)
+      res.send(ticket)
     } catch (error) {
       next(error)
     }
@@ -44,6 +44,7 @@ export class TicketsController extends BaseController {
     try {
       req.body.id = req.params.id
       req.body.creatorId = req.userInfo.id
+      req.body.accountId = req.userInfo.id
       const ticket = await ticketsService.remove(req.params.id, req.userInfo.id)
       return res.send('Delorted!')
     } catch (error) {
