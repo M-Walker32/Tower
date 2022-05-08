@@ -36,9 +36,9 @@ class TicketsService {
     if(!exists.id){
       // find the event by it's Id
     const event = await eventsService.getById(ticket.eventId)
-    // check if there's capacity
+    // TODO check if there's capacity check to see if this value is null
     if (event.capacity <= 0){
-      throw new Forbidden('This event is sold out')
+      throw new BadRequest('This event is sold out')
     }
     // If there is capacity create a ticket
     if (event.capacity > 0){

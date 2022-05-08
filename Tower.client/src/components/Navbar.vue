@@ -1,10 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
-      </div>
-    </router-link>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <img
+      src="https://i.pinimg.com/originals/e4/51/bd/e451bda0a314a5c3ac725e4ce14b15e4.jpg"
+      height="40"
+      class="rounded-circle"
+    />
     <button
       class="navbar-toggler"
       type="button"
@@ -19,6 +19,18 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
+          <router-link
+            :to="{ name: 'About' }"
+            class="btn text-success lighten-30 selectable text-uppercase"
+          >
+            About
+          </router-link>
+          <router-link
+            :to="{ name: 'About' }"
+            class="btn text-success lighten-30 selectable text-uppercase"
+          >
+            About
+          </router-link>
           <router-link
             :to="{ name: 'About' }"
             class="btn text-success lighten-30 selectable text-uppercase"

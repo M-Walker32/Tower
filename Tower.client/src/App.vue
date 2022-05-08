@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="sticky-top shadow">
     <Navbar />
   </header>
   <main>
@@ -26,5 +26,4 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
-
 </style>
