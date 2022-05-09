@@ -4,18 +4,14 @@
       <div class="me-2">
         <img :src="comment.creator.picture" class="img-fluid profile-img" />
       </div>
-      <div class="d-flex">
-        <div class="d-flex align-items-center">
-          <i
-            class="m-1 mdi mdi-delete-outline selectable on-hover"
-            title="Delete note"
-            @click="deleteComment"
-          ></i>
-        </div>
-      </div>
       <div class="p-1 w-100 bg-white">
-        <h6 class="text-primary font-weight-bold m-1">
+        <h6 class="text-primary d-flex font-weight-bold m-1">
           {{ comment.creator.name }}
+          <i
+            class="mdi mdi-delete-outline selectable"
+            title="Delete note"
+            @click.prevent="deleteComment"
+          ></i>
         </h6>
         <p class="m-1 p-0">{{ comment.body }}</p>
       </div>
@@ -25,6 +21,10 @@
 
 
 <script>
+import { useRoute } from "vue-router"
+import { commentsService } from "../services/CommentsService.js"
+import { logger } from "../utils/Logger.js"
+import Pop from "../utils/Pop.js"
 export default {
   props: {
     comment: {
@@ -32,8 +32,19 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    return {
+      async deleteComment() {
+        try {
+          if (await Pop.confirm()) {
+            await commentsService.deleteComment(props.comment)
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      }
+    }
   }
 }
 </script>
