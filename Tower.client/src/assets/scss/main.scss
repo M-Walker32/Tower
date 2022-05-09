@@ -27,6 +27,24 @@ main {
   flex-grow: 1;
 }
 
+.type-box {
+  background-color: olive;
+  color: lightblue;
+  max-width: fit-content;
+}
+
+.event-details {
+  background-color: darkcyan;
+  color: aliceblue;
+}
+
+.profile-img {
+  width: 8vh;
+  height: 8vh;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 a {
   text-decoration: none;
 }
