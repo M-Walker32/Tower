@@ -1,5 +1,5 @@
 <template>
-  <div class="col-3 mt-2">
+  <div class="col-md-3 mt-2">
     <div class="bg-light align-items-center shadow">
       <img :src="tower.coverImg" class="event-img pb-1" />
       <div class="p-2">

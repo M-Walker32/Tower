@@ -4,20 +4,13 @@ import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
 
 class TicketsService{
-  // async getTickets(){
-  //   const res = await api.get('api/tickets')
-  //   AppState.tickets = res.data
-  //   logger.log('tickets', res.data)
-  // }
   async getEventTickets(id){
     const res = await api.get(`api/events/${id}/tickets`)
     AppState.tickets = res.data
-    logger.log('tickets', res.data)
   }
   async getMyTickets(){
     const res = await api.get('account/tickets')
     AppState.myTickets = res.data
-    logger.log(res.data)
   }
 
   async deleteTicket(ticket){
@@ -28,7 +21,6 @@ class TicketsService{
 async createTicket(eventId, accountId){
   const accountexists = AppState.tickets.find((t => t.accountId === accountId))
   const eventexists = AppState.tickets.find(t => t.eventId === eventId)
-  // logger.log('ids:', eventId, accountId, 'params', info)
   if(accountexists && eventexists){
     Pop.toast('You can only have one ticket.')
   }
@@ -40,7 +32,7 @@ async createTicket(eventId, accountId){
     logger.log(ticket)
     const res = await api.post('api/tickets', ticket)
     this.getEventTickets(ticket.eventId)
-    // logger.log(ticket.eventId)
+    AppState.myTickets.push(res.data)
   }
 }
 }

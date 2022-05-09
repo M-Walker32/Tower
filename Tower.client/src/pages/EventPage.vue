@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between my-4">
           <h1 class="h-font">{{ tower.name }}</h1>
           <!-- TODO  a v-if fucntion that makes the attend button disappear if you have a ticket -->
-          <div>
+          <div v-if="!patron">
             <div v-if="tower.capacity > 0">
               <button
                 v-if="!tower.isCanceled"
@@ -56,13 +56,13 @@
             Seats left: <span class="text-warning">{{ tower.capacity }}</span>
           </div>
         </div>
-        <div class="p-3 bg-secondary shadow d-flex">
+        <div v-if="tickets[0]" class="p-3 bg-secondary shadow d-flex">
           <!-- TODO make a componenet for each person attending, this might be challenng to access?, update title tag -->
           <div class="m-2" v-for="t in tickets" :key="t.id" :tickets="t">
             <img
               :src="t.creator.picture"
               :title="t.creator.name + ' is attending'"
-              class="profile-img shadow"
+              class="patron-img shadow"
             />
           </div>
         </div>
@@ -117,6 +117,7 @@ export default {
       try {
         if (route.name == 'EventPage') {
           await towersService.getTower(route.params)
+          // await ticketsService.getMyTickets()
         }
       } catch (error) {
         logger.error(error)
@@ -127,6 +128,7 @@ export default {
       try {
         await ticketsService.getEventTickets(route.params.id)
         await commentsService.getComments(route.params.id)
+        await ticketsService.getMyTickets()
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')
@@ -163,7 +165,9 @@ export default {
       tower: computed(() => AppState.activeEvent),
       account: computed(() => AppState.account),
       tickets: computed(() => AppState.tickets),
-      comments: computed(() => AppState.comments)
+      comments: computed(() => AppState.comments),
+      myTickets: computed(() => AppState.myTickets),
+      patron: computed(() => AppState.myTickets.find(p => p.eventId == AppState.activeEvent.id))
     }
   }
 }
