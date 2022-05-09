@@ -57,9 +57,6 @@
     <div class="row justify-content-start">
       <!-- Project here -->
       <Tower v-for="t in sortedEvents" :key="t.id" :tower="t" />
-      <div class="div">
-        <Paginator />
-      </div>
     </div>
   </div>
 </template>

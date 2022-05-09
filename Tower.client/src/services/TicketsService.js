@@ -4,10 +4,17 @@ import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
 
 class TicketsService{
-  async getTickets(){
-    const res = await api.get('api/tickets')
-    AppState.tickets = res.data
-    logger.log('tickets', res.data)
+
+  async getMyTickets(){
+    const res = await api.get('account/tickets')
+    AppState.myTickets = res.data
+    logger.log(res.data)
+  }
+
+  async deleteTicket(ticket){
+    logger.log(ticket._id)
+    const res = await api.delete('api/tickets/'+ ticket._id )
+    this.getMyTickets()
   }
 async createTicket(eventId, accountId){
   const accountexists = AppState.tickets.find((t => t.accountId === accountId))
