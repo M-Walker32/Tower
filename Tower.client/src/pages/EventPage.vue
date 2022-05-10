@@ -133,7 +133,7 @@ export default {
     const formData = ref({})
     const route = useRoute()
     watchEffect(async () => {
-      const tower = AppState.activeEvent
+      // const tower = AppState.activeEvent
       route.params
       try {
         if (route.name == 'EventPage') {
