@@ -2,18 +2,63 @@
   <div class="container">
     <div class="row">
       <div class="col-12 my-3">
-        <div class="type-box p-1">{{ tower.type }}</div>
+        <div class="d-flex align-items-end">
+          <div class="type-box p-2">{{ tower.type }}</div>
+          <h1 class="h-font px-3">{{ tower.name }}</h1>
+        </div>
+        <div class="line w-100 my-4"></div>
+
         <h1 class="bg-danger text-light my-2" v-if="tower.isCanceled">
           This event has been cancelled.
         </h1>
+        <img
+          :src="tower.coverImg"
+          class="events-header shadow my-2"
+          :alt="tower.name"
+        />
+        <div
+          class="
+            event-details
+            p-2
+            my-2
+            h-font
+            col-12
+            shadow
+            justify-content-between
+            d-flex
+          "
+        >
+          <div class="col-4">
+            Date:
+            <span class="text-primary">{{
+              new Date(tower.startDate).toDateString()
+            }}</span>
+          </div>
+          <div class="col-4">
+            Location:
+            <span class="text-primary">{{ tower.location }}</span>
+          </div>
+          <div class="col-4 text-end">
+            Seats left:
+            <span class="text-primary">{{ tower.capacity }}</span>
+          </div>
+        </div>
+        <div v-if="tickets[0]" class="p-3 bg-primary lighten-20 shadow d-flex">
+          <div class="m-2" v-for="t in tickets" :key="t.id" :tickets="t">
+            <img
+              :src="t.creator.picture"
+              :title="t.creator.name + ' is attending'"
+              class="patron-img shadow"
+            />
+          </div>
+        </div>
+
         <div class="d-flex justify-content-between my-4">
-          <h1 class="h-font">{{ tower.name }}</h1>
-          <!-- TODO  a v-if fucntion that makes the attend button disappear if you have a ticket -->
           <div v-if="!patron">
             <div v-if="tower.capacity > 0">
               <button
                 v-if="!tower.isCanceled"
-                class="attend"
+                class="attend my-button"
                 title="attend this event"
                 @click="attend"
               >
@@ -26,69 +71,41 @@
               v-if="account.id == tower.creatorId"
               title="cancel {{tower.name}}"
               @click="cancelEvent"
+              class="my-button"
             >
               Cancel
             </button>
           </div>
         </div>
-        <img :src="tower.coverImg" class="events-header shadow my-2" />
-        <div
-          class="
-            event-details
-            p-2
-            my-2
-            h-font
-            shadow
-            justify-content-between
-            d-flex
-          "
-        >
-          <div>
-            Date:
-            <span class="text-warning">{{
-              new Date(tower.startDate).toDateString()
-            }}</span>
-          </div>
-          <div class="div">
-            Location: <span class="text-warning">{{ tower.location }}</span>
-          </div>
-          <div class="div">
-            Seats left: <span class="text-warning">{{ tower.capacity }}</span>
-          </div>
-        </div>
-        <div v-if="tickets[0]" class="p-3 bg-secondary shadow d-flex">
-          <!-- TODO make a componenet for each person attending, this might be challenng to access?, update title tag -->
-          <div class="m-2" v-for="t in tickets" :key="t.id" :tickets="t">
-            <img
-              :src="t.creator.picture"
-              :title="t.creator.name + ' is attending'"
-              class="patron-img shadow"
-            />
-          </div>
-        </div>
-        <div class="my-2">
-          {{ tower.description }}
+
+        <div class="my-2 text-dark bg-light">
+          <p class="m-3 p-3">
+            <span class="text-secondary darken-10">DESCRIPTION:</span>
+            {{ tower.description }}
+          </p>
         </div>
       </div>
     </div>
+    <div class="line w-100 my-4"></div>
     <div class="row">
       <div class="col-12">
-        <h5 class="d-flex">
-          Comments:
-          <form @submit.prevent="createComment">
-            <input
-              name="add-note-input"
-              class="mx-2"
-              type="text"
-              v-model="formData.body"
-            />
-            <button
-              type="submit"
-              title="create a comment"
-              class="mdi mdi-plus bg-warning p-1 selectable"
-            ></button>
-          </form>
-        </h5>
+        <h5 class="d-flex text-light col-12">Comments:</h5>
+        <form class="col-12" @submit.prevent="createComment">
+          <input
+            name="add-note-input"
+            class="mr-2 rounded"
+            type="text"
+            v-model="formData.body"
+            required
+          />
+          <i
+            type="submit"
+            title="create a comment"
+            class="text-primary lighten-20 mx-2 selectable"
+          >
+            +
+          </i>
+        </form>
         <Comment v-for="c in comments" :key="c.id" :comment="c" />
       </div>
     </div>
@@ -117,7 +134,7 @@ export default {
       try {
         if (route.name == 'EventPage') {
           await towersService.getTower(route.params)
-          // await ticketsService.getMyTickets()
+          await ticketsService.getMyTickets()
         }
       } catch (error) {
         logger.error(error)
@@ -175,4 +192,12 @@ export default {
 
 
 <style lang="scss" scoped>
+.type-box {
+  background-color: #943d03;
+  color: whitesmoke;
+}
+.line {
+  height: 2px;
+  background-color: #e6eca0;
+}
 </style>

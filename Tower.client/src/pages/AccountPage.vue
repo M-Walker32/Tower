@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row-fluid">
       <div class="col-12">
-        <h1 class="h-font">My Upcoming Events</h1>
+        <h2 class="h-font my-2">My Upcoming Events</h2>
         <!-- Tickets go here -->
-        <div class="col-8">
+        <div class="col-md-10 my-5 col-12">
           <Ticket v-for="t in myTickets" :key="t.id" :ticket="t" />
         </div>
       </div>

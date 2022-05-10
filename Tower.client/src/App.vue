@@ -6,7 +6,7 @@
     <router-view />
   </main>
   <footer>
-    <div class="bg-dark text-light text-center p-4"></div>
+    <div class="bg-primary text-light text-center mt-2 p-4"></div>
   </footer>
 </template>
 

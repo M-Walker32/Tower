@@ -1,19 +1,21 @@
 <template>
-  <div class="bg-warning ticket w-100">
-    <div class="d-flex shadow my-2">
+  <div class="ticket">
+    <div class="d-flex text-light shadow my-4 h-100">
       <img class="ticket-img" :src="ticket.event.coverImg" />
-      <div class="">
-        <div class="d-flex justify-content-between">
-          <h5 class="m-2 text-color">{{ ticket.event.name }}</h5>
+      <div class="row">
+        <div class="d-flex col-12 justify-content-between">
+          <h5 class="m-2 px-2 text-color">{{ ticket.event.name }}</h5>
           <div
             title="delete ticket to {{ticket.event.name}}"
-            class="mx-1 selectable mdi mdi-close-circle-outline"
+            class="mx-1 text-end selectable mdi mdi-close-circle-outline"
             @click.prevent="deleteTicket"
           ></div>
         </div>
-        <p class="m-2">
-          {{ ticket.event.description }}
-        </p>
+        <div class="col-12">
+          <p class="m-2 px-2 pe-5">
+            {{ ticket.event.description }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -53,10 +55,19 @@ export default {
 <style lang="scss" scoped>
 .ticket {
   object-fit: contain;
+  background-color: #084560;
+  border-right: 20px dashed rgba(0, 0, 0, 0.456);
+  width: 100%;
+}
+.ticket:hover {
+  background-color: #052533;
 }
 .ticket-img {
-  width: 20%;
+  width: 25%;
   height: 100%;
   object-fit: cover;
+}
+.text-color {
+  color: #a4c9d9dd;
 }
 </style>

@@ -60,7 +60,7 @@
     <div class="mb-3">
       <label for="event-type" class="form-label">Event Type:</label>
       <select
-        class="form-select"
+        class="form-select my-button"
         aria-label="select event type"
         v-model="editable.type"
         required

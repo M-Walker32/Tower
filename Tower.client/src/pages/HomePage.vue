@@ -1,60 +1,69 @@
 <template>
-  <div class="container bg-background pt-3">
-    <div class="row-fluid">
-      <div class="col-12">
-        <img src="http://thiscatdoesnotexist.com" class="events-header" />
+  <div class="container-fluid bg-background pt-3">
+    <div class="row">
+      <div class="col-12 events-header">
+        <h1 class="logo">Upcoming Events</h1>
       </div>
     </div>
     <div class="row justify-content-center">
       <!-- Sorting navbar -->
-      <div class="col-12">
-        <div
-          class="
-            text-success text-uppercase
-            bg-primary
-            w-100
-            my-2
-            p-1
-            h-font
-            justify-content-around
-            d-flex
-          "
+      <div
+        class="
+          text-success text-uppercase
+          bg-primary
+          col-12 col-md-6
+          mt-3
+          h-font
+          justify-content-around
+          p-2
+          d-flex
+        "
+      >
+        <h5 class="selectable" @click="sort = ''" title="view all events">
+          All
+        </h5>
+        <h5 class="selectable" @click="sort = 'concert'" title="view concerts">
+          concerts
+        </h5>
+
+        <h5
+          class="selectable"
+          @click="sort = 'sport'"
+          title="view sporting events"
         >
-          <h2 class="selectable" @click="sort = ''" title="view all events">
-            All
-          </h2>
-          <h2
-            class="selectable"
-            @click="sort = 'concert'"
-            title="view concerts"
-          >
-            concerts
-          </h2>
-          <h2
-            class="selectable"
-            @click="sort = 'convention'"
-            title="view conventions"
-          >
-            conventions
-          </h2>
-          <h2
-            class="selectable"
-            @click="sort = 'sport'"
-            title="view sporting events"
-          >
-            sports
-          </h2>
-          <h2
-            class="selectable"
-            @click="sort = 'digital'"
-            title="view virtual events"
-          >
-            virtual
-          </h2>
-        </div>
+          sports
+        </h5>
+      </div>
+      <div
+        class="
+          mt-md-3
+          col-12 col-md-6
+          text-success text-uppercase
+          h-font
+          justify-content-around
+          d-flex
+          p-2
+          bg-primary
+        "
+      >
+        <h5
+          class="selectable"
+          @click="sort = 'convention'"
+          title="view conventions"
+        >
+          conventions
+        </h5>
+
+        <h5
+          class="selectable"
+          @click="sort = 'digital'"
+          title="view virtual events"
+        >
+          virtual
+        </h5>
       </div>
     </div>
-    <div class="row justify-content-start">
+    <div class="row my-3">
       <!-- Project here -->
       <Tower v-for="t in sortedEvents" :key="t.id" :tower="t" />
     </div>
@@ -97,4 +106,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.logo {
+  text-transform: uppercase;
+  font-family: "Permanent Marker", Impact, Haettenschweiler, "Arial Narrow Bold",
+    sans-serif;
+  position: absolute;
+  color: azure;
+  top: 4em;
+  left: 1em;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-4 rounded bg-grey rounded p-3">
+  <div class="container my-4 srounded bg-primary darken-10 rounded p-3">
     <div class="d-flex m-2">
       <div class="me-2">
         <img :src="comment.creator.picture" class="img-fluid profile-img" />
@@ -8,12 +8,13 @@
         <h6 class="text-primary d-flex font-weight-bold m-1">
           {{ comment.creator.name }}
           <i
+            v-if="comment.creator.id == account.id"
             class="mdi mdi-delete-outline selectable"
-            title="Delete note"
+            title="Delete comment"
             @click.prevent="deleteComment"
           ></i>
         </h6>
-        <p class="m-1 p-0">{{ comment.body }}</p>
+        <p class="m-1 text-dark p-0">{{ comment.body }}</p>
       </div>
     </div>
   </div>
@@ -21,10 +22,12 @@
 
 
 <script>
+import { computed } from "@vue/reactivity"
 import { useRoute } from "vue-router"
 import { commentsService } from "../services/CommentsService.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
+import { AppState } from "../AppState.js"
 export default {
   props: {
     comment: {
@@ -34,6 +37,7 @@ export default {
   },
   setup(props) {
     return {
+      account: computed(() => AppState.account),
       async deleteComment() {
         try {
           if (await Pop.confirm()) {

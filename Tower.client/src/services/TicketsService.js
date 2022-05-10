@@ -14,7 +14,6 @@ class TicketsService{
   }
 
   async deleteTicket(ticket){
-    logger.log(ticket._id)
     const res = await api.delete('api/tickets/'+ ticket._id )
     this.getMyTickets()
   }
@@ -31,7 +30,6 @@ async createTicket(eventId, accountId){
     ticket.creatorId = accountId
     logger.log(ticket)
     const res = await api.post('api/tickets', ticket)
-    this.getEventTickets(ticket.eventId)
     AppState.myTickets.push(res.data)
   }
 }
