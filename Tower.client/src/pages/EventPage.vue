@@ -138,8 +138,10 @@ export default {
       route.params
       try {
         if (route.name == 'EventPage') {
+          AppState.tickets
           await towersService.getTower(route.params)
           await ticketsService.getMyTickets()
+          await ticketsService.getEventTickets(route.params.id)
         }
       } catch (error) {
         logger.error(error)
@@ -152,7 +154,7 @@ export default {
           await ticketsService.getEventTickets(route.params.id)
           await commentsService.getComments(route.params.id)
           // await accountService.getAccount()
-          // await ticketsService.getMyTickets()
+          await ticketsService.getMyTickets()
         }
       } catch (error) {
         logger.error(error)

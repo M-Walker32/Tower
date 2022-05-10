@@ -33,7 +33,7 @@ async createTicket(eventId, accountId){
     ticket.creatorId = accountId
     logger.log(ticket)
     const res = await api.post('api/tickets', ticket)
-    AppState.myTickets.push(res.data)
+    AppState.myTickets.unshift(res.data)
   }
 }
 }
