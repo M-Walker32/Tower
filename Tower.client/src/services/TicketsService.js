@@ -17,6 +17,9 @@ class TicketsService{
     const res = await api.delete('api/tickets/'+ ticket._id )
     this.getMyTickets()
   }
+  async deleteTickets(eventId){
+    // const ticketsToDelete = this.getEventTickets(eventId)
+  }
 async createTicket(eventId, accountId){
   const accountexists = AppState.tickets.find((t => t.accountId === accountId))
   const eventexists = AppState.tickets.find(t => t.eventId === eventId)

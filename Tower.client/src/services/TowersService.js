@@ -3,6 +3,7 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
+import { ticketsService } from "./TicketsService.js"
 
 class TowersService{
 async getAllTowers(){
@@ -27,6 +28,7 @@ async cancelEvent(id){
   tower.isCanceled = true
   const res = await api.delete(`api/events/${id.id}`, tower)
   AppState.towers = AppState.towers
+  AppState.tickets = []
 }
 async changePage(page){
   const res = await api.get('api/events/', page)

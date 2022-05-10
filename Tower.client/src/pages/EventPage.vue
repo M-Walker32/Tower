@@ -54,27 +54,31 @@
         </div>
 
         <div class="d-flex justify-content-between my-4">
-          <div v-if="!patron">
-            <div v-if="tower.capacity > 0">
-              <button
-                v-if="!tower.isCanceled"
-                class="attend my-button"
-                title="attend this event"
-                @click="attend"
-              >
-                Attend
-              </button>
+          <div v-if="account.id">
+            <div v-if="!patron">
+              <div v-if="tower.capacity > 0">
+                <button
+                  v-if="!tower.isCanceled"
+                  class="attend my-button"
+                  title="attend this event"
+                  @click="attend"
+                >
+                  Attend
+                </button>
+              </div>
             </div>
           </div>
-          <div v-if="!tower.isCanceled">
-            <button
-              v-if="account.id == tower.creatorId"
-              title="cancel {{tower.name}}"
-              @click="cancelEvent"
-              class="my-button"
-            >
-              Cancel
-            </button>
+          <div class="div" v-if="account.id == tower.creatorId">
+            <div v-if="!tower.isCanceled">
+              <button
+                v-if="account.id == tower.creatorId"
+                title="cancel {{tower.name}}"
+                @click="cancelEvent"
+                class="my-button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
 
