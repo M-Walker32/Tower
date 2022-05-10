@@ -127,6 +127,7 @@ import { onMounted, watchEffect } from "@vue/runtime-core"
 import { useRoute } from "vue-router"
 import { ticketsService } from "../services/TicketsService.js"
 import { commentsService } from "../services/CommentsService.js"
+import { accountService } from "../services/AccountService.js"
 export default {
   name: 'EventPage',
   setup() {
@@ -147,9 +148,12 @@ export default {
     })
     onMounted(async () => {
       try {
-        await ticketsService.getEventTickets(route.params.id)
-        await commentsService.getComments(route.params.id)
-        await ticketsService.getMyTickets()
+        if (route.name == 'EventPage') {
+          await ticketsService.getEventTickets(route.params.id)
+          await commentsService.getComments(route.params.id)
+          // await accountService.getAccount()
+          // await ticketsService.getMyTickets()
+        }
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')
