@@ -134,10 +134,10 @@ export default {
     const formData = ref({})
     const route = useRoute()
     watchEffect(async () => {
-      // const tower = AppState.activeEvent
       route.params
       try {
-        if (route.name == 'EventPage') {
+        logger.log(route.params)
+        if (route.params == 'EventPage') {
           AppState.tickets
           await towersService.getTower(route.params)
           await ticketsService.getMyTickets()

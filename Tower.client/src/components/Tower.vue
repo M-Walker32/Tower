@@ -44,6 +44,8 @@
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState.js"
 import { useRoute } from "vue-router"
+import { logger } from "../utils/Logger.js"
+import Pop from "../utils/Pop.js"
 export default {
   props: {
     tower: {
@@ -54,7 +56,7 @@ export default {
   setup(props) {
     const router = useRoute()
     return {
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.account || null),
     }
   }
 }

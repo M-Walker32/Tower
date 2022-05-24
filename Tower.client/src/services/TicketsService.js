@@ -10,6 +10,7 @@ class TicketsService{
   }
   async getMyTickets(){
     const res = await api.get('account/tickets')
+    logger.log('is this the error?')
     AppState.myTickets = res.data
   }
 
