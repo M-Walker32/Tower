@@ -134,18 +134,19 @@ export default {
     const formData = ref({})
     const route = useRoute()
     watchEffect(async () => {
-      route.params
-      try {
-        logger.log(route.params)
-        if (route.params == 'EventPage') {
+      route.name == 'EventPage'
+      if (route.name == 'EventPage') {
+        try {
+          logger.log(route.name == 'EventPage')
           AppState.tickets
           await towersService.getTower(route.params)
           await ticketsService.getMyTickets()
           await ticketsService.getEventTickets(route.params.id)
         }
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error.message, 'error')
+        catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
       }
     })
     onMounted(async () => {
@@ -153,7 +154,6 @@ export default {
         if (route.name == 'EventPage') {
           await ticketsService.getEventTickets(route.params.id)
           await commentsService.getComments(route.params.id)
-          // await accountService.getAccount()
           await ticketsService.getMyTickets()
         }
       } catch (error) {

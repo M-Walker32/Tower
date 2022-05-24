@@ -5,6 +5,7 @@ import { api } from "./AxiosService.js"
 
 class TicketsService{
   async getEventTickets(id){
+    if(!id){return}
     const res = await api.get(`api/events/${id}/tickets`)
     AppState.tickets = res.data
   }

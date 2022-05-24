@@ -81,7 +81,6 @@ export default {
   setup() {
     const sort = ref('')
     const sortedEvents = ref([])
-
     watchEffect(() => {
       let list = AppState.towers
       if (sort.value) {
